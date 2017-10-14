@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言本篇文章以介绍常见的DOM节点知识、DOM元素操作方法为目的，其中也对一些比较容易忽略的问题进行简要说明。才疏学浅，有说错的地方或优化的建议也欢迎留下评论。 Node节点首先，简单看看Node节点。有三个属性个人认为比较需要注意，nodeType、nodeName、nodeValue。  nodeType——节点类型返回的是一个整数，表面节点的类型。包括元素节点(1)、文本节点(3)、注释节点">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript笔记——DOM操作">
+<meta property="og:url" content="https://southbeanz.github.io/2017/10/14/JavaScript小结——DOM操作/index.html">
+<meta property="og:site_name" content="Zero&#39;s blog">
+<meta property="og:description" content="前言本篇文章以介绍常见的DOM节点知识、DOM元素操作方法为目的，其中也对一些比较容易忽略的问题进行简要说明。才疏学浅，有说错的地方或优化的建议也欢迎留下评论。 Node节点首先，简单看看Node节点。有三个属性个人认为比较需要注意，nodeType、nodeName、nodeValue。  nodeType——节点类型返回的是一个整数，表面节点的类型。包括元素节点(1)、文本节点(3)、注释节点">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://southbeanz.github.io/images/js-node.png">
+<meta property="og:updated_time" content="2017-10-14T10:48:58.170Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript笔记——DOM操作">
+<meta name="twitter:description" content="前言本篇文章以介绍常见的DOM节点知识、DOM元素操作方法为目的，其中也对一些比较容易忽略的问题进行简要说明。才疏学浅，有说错的地方或优化的建议也欢迎留下评论。 Node节点首先，简单看看Node节点。有三个属性个人认为比较需要注意，nodeType、nodeName、nodeValue。  nodeType——节点类型返回的是一个整数，表面节点的类型。包括元素节点(1)、文本节点(3)、注释节点">
+<meta name="twitter:image" content="https://southbeanz.github.io/images/js-node.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://southbeanz.github.io/2017/10/14/JavaScript小结——DOM操作/"/>
+
+
+
+
+
+  <title>JavaScript笔记——DOM操作 | Zero's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zero's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://southbeanz.github.io/2017/10/14/JavaScript小结——DOM操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zero Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zero's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript笔记——DOM操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T17:55:23+08:00">
+                2017-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本篇文章以介绍常见的DOM节点知识、DOM元素操作方法为目的，其中也对一些比较容易忽略的问题进行简要说明。才疏学浅，有说错的地方或优化的建议也欢迎留下评论。</p>
+<h2 id="Node节点"><a href="#Node节点" class="headerlink" title="Node节点"></a>Node节点</h2><p>首先，简单看看Node节点。有三个属性个人认为比较需要注意，nodeType、nodeName、nodeValue。</p>
+<ol>
+<li>nodeType——节点类型<br>返回的是一个整数，表面节点的类型。包括元素节点(1)、文本节点(3)、注释节点(8)等。详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType" target="_blank" rel="external">Node.nodeType</a><a id="more"></a></li>
+<li><p>nodeName——节点名称<br>返回节点名称。<br>元素节点的 nodeName 与标签名相同<br>文本节点的 nodeName 始终是 #text<br>文档节点的 nodeName 始终是 #document<br>详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeName" target="_blank" rel="external">Node.nodeName</a></p>
+</li>
+<li><p>nodeValue——节点值<br>元素节点的 nodeValue 是 null<br>文本节点的 nodeValue 是文本本身<br>详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeValue" target="_blank" rel="external">Node.nodeValue</a></p>
+</li>
+</ol>
+<h2 id="Node节点间的关系"><a href="#Node节点间的关系" class="headerlink" title="Node节点间的关系"></a>Node节点间的关系</h2><p><img src="/images/js-node.png" alt="Node节点关系"><br>这个图是来自《Javascript高级程序设计》一书中的Node节点间的关系图谱，比较清晰地介绍了节点之间的关系。</p>
+<ul>
+<li>parentNode: 父节点</li>
+<li>childNodes: 所有子节点</li>
+<li>firstNode: 第一个子节点</li>
+<li>lastNode: 最后一个子节点</li>
+<li>previousSibling: 前一个兄弟节点</li>
+<li>nextSibling: 下一个兄弟节点</li>
+</ul>
+<p>特别注意上述属性获取的并不只是元素节点，也会包含文本节点等。所以进行操作时需要进行元素类型判断过滤。<br>此外，还有一些方式可以获得相关的元素节点。</p>
+<ul>
+<li>Node.parentElement</li>
+<li>ParentNode.children(IE6-8返回的元素可能会包含注释节点)</li>
+<li>ParentNode.childElemnetCount</li>
+<li>ParentNode.firstElementChild</li>
+<li>ParentNode.lastElementChild</li>
+<li>NonDocumentTypeChildNode.previousElementSibling</li>
+<li>NonDocumentTypeChildNode.nextElementSibling</li>
+</ul>
+<h2 id="DOM元素获取方法"><a href="#DOM元素获取方法" class="headerlink" title="DOM元素获取方法"></a>DOM元素获取方法</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>简述</th>
+<th>兼容性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getElementById(‘id’)</td>
+<td>通过id获取</td>
+<td>-</td>
+</tr>
+<tr>
+<td>getElementsByTagName(‘p’)</td>
+<td>通过标签名获取</td>
+<td>-</td>
+</tr>
+<tr>
+<td>getElementsByClassName(‘class’)</td>
+<td>通过class获取</td>
+<td>IE&gt;= 9</td>
+</tr>
+<tr>
+<td>getElementsByName(‘name’)</td>
+<td>通过name属性获取</td>
+<td>-</td>
+</tr>
+<tr>
+<td>querySelector()</td>
+<td>返回匹配选择器的第一个元素</td>
+<td>IE &gt;= 8</td>
+</tr>
+<tr>
+<td>querySelectorAll()</td>
+<td>返回匹配选择器的所有元素</td>
+<td>IE &gt;=8</td>
+</tr>
+</tbody>
+</table>
+<p>特别注意：querySelectorAll()与其他方法获取的DOM元素是不同的，它返回的是静态的<br> NodeList 对象，其他返回的是动态的 HTMLCollection 对象。静态意味着不会随着DOM结构的变换而改变。举例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// html</div><div class="line">&lt;ul id=&quot;list&quot;&gt;</div><div class="line">  &lt;li&gt;1&lt;/li&gt;</div><div class="line">  &lt;li&gt;2&lt;/li&gt;</div><div class="line">  &lt;li&gt;3&lt;/li&gt;</div><div class="line">  &lt;li&gt;4&lt;/li&gt;</div><div class="line">  &lt;li&gt;5&lt;/li&gt;</div><div class="line">  &lt;li&gt;6&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line"></div><div class="line">//js</div><div class="line">let list = document.getElementById(&apos;list&apos;),</div><div class="line">    child1 = document.getElementsByTagName(&apos;li&apos;),</div><div class="line">    child2 = document.querySelectorAll(&apos;li&apos;)</div><div class="line">console.log(child1.length) // 6</div><div class="line">console.log(child2.length) // 6</div><div class="line">let ele = document.createElement(&apos;li&apos;)</div><div class="line">ele.innerHTML = 7</div><div class="line">list.appendChild(ele)</div><div class="line">console.log(child1.length) // 7</div><div class="line">console.log(child2.length) // 6</div></pre></td></tr></table></figure>
+<p>所以，在使用getElementsByTagName、getElementsByClassName、getElementsByName方法时要特别注意循环处理DOM节点的情况。</p>
+<h2 id="创建DOM节点"><a href="#创建DOM节点" class="headerlink" title="创建DOM节点"></a>创建DOM节点</h2><p>createElement() 创建一个元素节点<br>createTextNode() 创建一个文本节点<br>createAttribute() 创建一个属性节点（用setAttribute方法更加方便）<br>createDocumentFragment() 创建一个文档片段（适合在批量操作DOM元素时使用，详见后面章节的例子）</p>
+<h2 id="DOM元素内容属性获取"><a href="#DOM元素内容属性获取" class="headerlink" title="DOM元素内容属性获取"></a>DOM元素内容属性获取</h2><ol>
+<li>元素内容的获取<br>这里有几个容易混淆的属性，innerHTML、outerHTML、innerText、outerText、textContent，都是可以获取元素内容。区别如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>innerHTML</td>
+<td>返回HTML文本，存在XSS攻击的问题。</td>
+</tr>
+<tr>
+<td>outerHTML</td>
+<td>返回内容包含元素及其后代的HTML文本。</td>
+</tr>
+<tr>
+<td>textContent</td>
+<td>返回元素所有文本内容，包括隐藏元素的文本，包括<code>&lt;style&gt;</code>、<code>&lt;script&gt;</code>不会返回HTML文本，避免直接设置HTML文本。（兼容性：IE9+）</td>
+</tr>
+<tr>
+<td>innerText</td>
+<td>返回文本内容，受CSS样式影响，会触发DOM重排，不包括隐藏元素的文本，不包括<code>&lt;style&gt;</code>、<code>&lt;script&gt;</code>，避免直接设置HTML文本。</td>
+</tr>
+<tr>
+<td>outerText</td>
+<td>非标准属性。获取时返回与innerText相同内容，设置时删除当前节点替换为给定文本。</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><p>元素属性<br>Element.attributes(): 引用MDN官网的描述</p>
+<blockquote>
+<p>返回该元素所有属性节点的一个实时集合。该集合是一个 NamedNodeMap 对象，不是一个数组，所以它没有数组的方法，其包含的属性节点的索引顺序随浏览器不同而不同。更确切地说，attributes 是字符串形式的名(name)/值(value)对，每一对名/值对对应一个属性节点。</p>
+</blockquote>
+<p>ele.getAttribute(attributeName) 获取属性<br>ele.setAttribute(name, value) 设置属性<br>HTMLElement.dataset: 获取data-*属性集</p>
+</li>
+<li><p>元素样式<br>HTMLElement.style 返回元素的内联样式（没错，样式表的属性会被忽略）<br>单个样式的设置：<code>ele.style.color=&#39;#000&#39;</code><br>多个样式的设置：</p>
+<ul>
+<li>依次设置</li>
+<li><code>ele.style.cssText=&#39;color: blue&#39;</code></li>
+<li><code>ele.setAttribute(&#39;style&#39;, &#39;color: blue&#39;)</code></li>
+</ul>
+<p>获取元素样式信息：</p>
+<ul>
+<li><code>window.getComputedStyle(ele).color</code></li>
+<li><code>window.getComputedStyle(ele).getPropertyValue(&#39;color&#39;)</code>。getComputedStyle方法接受第二个参数为伪元素，如<code>&#39;::after&#39;</code>。关于getComputedStyle详细介绍可以看看张鑫旭大神的<a href="http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/" target="_blank" rel="external">获取元素CSS值之getComputedStyle方法</a>一文。</li>
+</ul>
+</li>
+<li><p>元素类名<br>className 获取或设置元素的类名。<br>classList 只读，返回元素的类属性的实时 DOMTokenList集合。但可以使用 add() 和 remove() 方法修改。也有类似jQuery的toggle方法，但是兼容性较差。</p>
+</li>
+</ol>
+<h2 id="插入DOM元素"><a href="#插入DOM元素" class="headerlink" title="插入DOM元素"></a>插入DOM元素</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>简述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node.appendChild(newNode)</td>
+<td>向node节点插入一个新节点newNode</td>
+</tr>
+<tr>
+<td>node.insertBefore(newNode, tarNode)</td>
+<td>在node节点的tarNode子节点前插入一个新节点newNode</td>
+</tr>
+<tr>
+<td>node.replaceChild(newNode, tarNode)</td>
+<td>替换node节点的tarNode子节点为新节点newNode</td>
+</tr>
+<tr>
+<td>node.removeChild(tarNode)</td>
+<td>移除node节点的tarNode子节点</td>
+</tr>
+<tr>
+<td>cloneNode(flag)</td>
+<td>复制节点，flag: true 深复制；flag: false 浅复制</td>
+</tr>
+</tbody>
+</table>
+<p>此处深复制为复制节点及其整个子树，浅复制则仅复制节点本身。</p>
+<h2 id="DOM操作的性能问题"><a href="#DOM操作的性能问题" class="headerlink" title="DOM操作的性能问题"></a>DOM操作的性能问题</h2><p>频繁进行DOM操作其实会造成多次重排Reflow，影响性能。举个常见的例子，在id为container的元素中添加5个按钮，每个按钮的文案是相应序号，点击打印输出对应序号。解决办法有以下几种：</p>
+<ol>
+<li><p>依次创建button元素，使用appenChild添加到列表中<br>当然，这个方法是最不推荐的，因为多次对DOM进行操作，会造成多次页面重排，性能太差。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">let container = document.getElementById(&apos;container&apos;)</div><div class="line">for(let i = 1; i &lt; 5; i++) &#123;</div><div class="line">    let btn = document.createElement(&apos;button&apos;),</div><div class="line">        text = document.createTextNode(i)</div><div class="line">    btn.appendChild(text)</div><div class="line">    btn.addEventListener(&apos;click&apos;, () =&gt; &#123;</div><div class="line">        console.log(i)</div><div class="line">    &#125;)</div><div class="line">    container.appendChild(btn)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>利用DocumentFragment<br>引用MDN官网关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment" target="_blank" rel="external">DocumentFragment</a>的介绍：</p>
+<blockquote>
+<p>DocumentFragment 接口表示一个没有父级文件的最小文档对象。它被当做一个轻量版本的 Document 使用，用于存储已排好版的或尚未打理好格式的XML片段。最大的区别是因为DocumentFragment不是真实DOM树的其中一部分，它的变化不会引起DOM树的重新渲染的操作(reflow) ，或者导致性能影响的问题出现。</p>
+</blockquote>
+<p>没错，利用DocumentFragment我们能够避免方法1中多次操作DOM的问题，性能得到提升。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">let container = document.getElementById(&apos;container&apos;),</div><div class="line">    fragment = document.createDocumentFragment()</div><div class="line">for(let i = 1; i &lt; 5; i++) &#123;</div><div class="line">    let btn = document.createElement(&apos;button&apos;),</div><div class="line">        text = document.createTextNode(i)</div><div class="line">    btn.appendChild(text)</div><div class="line">    btn.addEventListener(&apos;click&apos;, () =&gt; &#123;</div><div class="line">        console.log(i)</div><div class="line">    &#125;)</div><div class="line">    fragment.appendChild(btn)</div><div class="line">&#125;</div><div class="line">container.appendChild(fragment)</div></pre></td></tr></table></figure>
+</li>
+<li><p>利用字符串拼接<br>使用字符串拼接的方法插入DOM元素是效率最高的。并且，这里将事件绑定到了父元素上，一方面可以使用动态添加元素的事件，另一方面当需要在大量元素上绑定事件时，这种方法更加优雅并且节省内存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">let container = document.getElementById(&apos;container&apos;),</div><div class="line">    btns = &apos;&apos;;</div><div class="line">for(let i = 1; i &lt; 5; i++) &#123;</div><div class="line">    let btn = `&lt;button class=&quot;btn_num&quot;&gt;$&#123;i&#125;&lt;/button&gt;`</div><div class="line">    btns += btn</div><div class="line">&#125;</div><div class="line">container.addEventListener(&apos;click&apos;, (event) =&gt; &#123;</div><div class="line">    let target = event.target</div><div class="line">    if(target.className == &apos;btn_num&apos;) &#123;</div><div class="line">        console.log(target.innerHTML)</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">container.innerHTML = btns</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/14/CSS哪些事儿——居中布局/" rel="next" title="CSS哪些事儿——居中布局">
+                <i class="fa fa-chevron-left"></i> CSS哪些事儿——居中布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4"
+                alt="Zero Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Zero Zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/southbeanZ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://segmentfault.com/u/southbean" target="_blank" title="Segmentfault">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Segmentfault</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node节点"><span class="nav-number">2.</span> <span class="nav-text">Node节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node节点间的关系"><span class="nav-number">3.</span> <span class="nav-text">Node节点间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM元素获取方法"><span class="nav-number">4.</span> <span class="nav-text">DOM元素获取方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建DOM节点"><span class="nav-number">5.</span> <span class="nav-text">创建DOM节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM元素内容属性获取"><span class="nav-number">6.</span> <span class="nav-text">DOM元素内容属性获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入DOM元素"><span class="nav-number">7.</span> <span class="nav-text">插入DOM元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM操作的性能问题"><span class="nav-number">8.</span> <span class="nav-text">DOM操作的性能问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zero Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

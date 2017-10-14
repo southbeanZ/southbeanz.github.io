@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言居中布局，是前端页面最常见的一种布局需求。刚开始学习前端时还是困扰了一段时间，后来看了Centering in CSS: A Complete Guide一文后才算掌握了方法。下面将现今自己了解的居中布局方法作个小总结。 概述首先来看看居中布局的需求分类：  水平居中 垂直居中 垂直水平居中">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS哪些事儿——居中布局">
+<meta property="og:url" content="https://southbeanz.github.io/2017/10/14/CSS哪些事儿——居中布局/index.html">
+<meta property="og:site_name" content="Zero&#39;s blog">
+<meta property="og:description" content="前言居中布局，是前端页面最常见的一种布局需求。刚开始学习前端时还是困扰了一段时间，后来看了Centering in CSS: A Complete Guide一文后才算掌握了方法。下面将现今自己了解的居中布局方法作个小总结。 概述首先来看看居中布局的需求分类：  水平居中 垂直居中 垂直水平居中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://southbeanz.github.io/images/css-align-1.png">
+<meta property="og:image" content="https://southbeanz.github.io/images/css-align-2.png">
+<meta property="og:image" content="https://southbeanz.github.io/images/css-align-3.png">
+<meta property="og:updated_time" content="2017-10-14T10:48:54.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS哪些事儿——居中布局">
+<meta name="twitter:description" content="前言居中布局，是前端页面最常见的一种布局需求。刚开始学习前端时还是困扰了一段时间，后来看了Centering in CSS: A Complete Guide一文后才算掌握了方法。下面将现今自己了解的居中布局方法作个小总结。 概述首先来看看居中布局的需求分类：  水平居中 垂直居中 垂直水平居中">
+<meta name="twitter:image" content="https://southbeanz.github.io/images/css-align-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://southbeanz.github.io/2017/10/14/CSS哪些事儿——居中布局/"/>
+
+
+
+
+
+  <title>CSS哪些事儿——居中布局 | Zero's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zero's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://southbeanz.github.io/2017/10/14/CSS哪些事儿——居中布局/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zero Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zero's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS哪些事儿——居中布局</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T17:51:23+08:00">
+                2017-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>居中布局，是前端页面最常见的一种布局需求。刚开始学习前端时还是困扰了一段时间，后来看了<a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="external">Centering in CSS: A Complete Guide</a>一文后才算掌握了方法。下面将现今自己了解的居中布局方法作个小总结。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>首先来看看居中布局的需求分类：</p>
+<ul>
+<li>水平居中</li>
+<li>垂直居中</li>
+<li>垂直水平居中<a id="more"></a>
+分别的，针对不同的元素类型，行内元素还是块级元素，我们可以有不同的处理方法。这边引用mdn的文档简单说明一下行内元素与块级元素，有助于理解相应的实现原理。<blockquote>
+<p>行内元素：一个行内元素只占据它对应标签的边框所包含的空间。如a, img, span, button, input, label, select, textarea 等。<br>块级元素：块级元素占据其父元素（容器）的整个空间. 如div, h1~6, p, form, table, ul, ol 等。</p>
+</blockquote>
+</li>
+</ul>
+<p>当然，对于上述类型的元素，我们也可以通过设置<code>display: inline-block</code>的方式使其变为行内盒子，使用行内元素的方法进行居中。<br>下面，针对不同的布局需求，分别总结一下相应的实现方式。注意，本文所述的行内元素为<code>display</code>属性为<code>inline</code>或<code>inline-block</code>的元素。</p>
+<h2 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h2><h3 id="行内元素"><a href="#行内元素" class="headerlink" title="行内元素"></a>行内元素</h3><p>在包含的父元素定义<code>text-align</code>属性为<code>center</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    text-align: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>优点：兼容性好，并且适用于多个inline-block元素在同一行进行居中，不用考虑各个元素的宽度问题。<br>浏览器兼容性：All</p>
+<h3 id="块级元素"><a href="#块级元素" class="headerlink" title="块级元素"></a>块级元素</h3><p>在当前元素设置<code>margin-left</code>与<code>margin-right</code>属性为<code>auto</code>。一般简写如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.child &#123;</div><div class="line">    margin: 0 auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此时的元素自然也是需要设定<code>width</code>属性的，否则作为块级元素，它的宽度就是100%，并不需要进行居中了。<br>浏览器兼容性：All</p>
+<h2 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h2><h3 id="行内元素-1"><a href="#行内元素-1" class="headerlink" title="行内元素"></a>行内元素</h3><ol>
+<li><p>使用line-height<br> 如果内容是单行的，那么可以在包含的父元素定义相同的<code>height</code>与<code>line-height</code>一致。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    height: 20px;</div><div class="line">    line-height: 20px;</div><div class="line">    white-space: nowrap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 浏览器兼容性：All</p>
+</li>
+<li><p>使用padding<br> 也可以使用padding属性进行居中，但使用情况条件相对有限，受外层包含元素的高度影响。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    padding-top: 20px;</div><div class="line">    padding-bottom: 20px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 浏览器兼容性：All</p>
+</li>
+<li><p>利用伪元素<br> 通过伪元素，使用<code>vertical-align</code>属性进行对齐，这个方法比较巧妙，可以用于上述方法不适用的场景。<br> 浏览器兼容性：All<br> Html:  </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;container&quot;&gt;</div><div class="line">    &lt;p&gt;If both of these techniques are out, you could employ the &quot;ghost element&quot; technique, in which a full-height pseudo element is placed inside the container and the text is vertically aligned with that.&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p> CSS:  </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">.container &#123;</div><div class="line">    height: 200px;</div><div class="line">    background-color: #aaa;</div><div class="line">&#125;</div><div class="line">.container::before &#123;</div><div class="line">    content: &quot;&quot;;</div><div class="line">    display: inline-block;</div><div class="line">    height: 100%;</div><div class="line">    width: 0;</div><div class="line">    vertical-align: middle;</div><div class="line">&#125;</div><div class="line">p &#123;</div><div class="line">    width: 300px;</div><div class="line">    display: inline-block;</div><div class="line">    vertical-align: middle;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 效果：<br> <img src="/images/css-align-1.png" alt="伪元素居中效果"></p>
+</li>
+</ol>
+<h3 id="块级元素-1"><a href="#块级元素-1" class="headerlink" title="块级元素"></a>块级元素</h3><ol>
+<li><p>已知元素高度</p>
+<ul>
+<li><p>绝对定位与<code>margin</code></p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 50%;</div><div class="line">    left: 0;</div><div class="line">    height: 200px;</div><div class="line">    margin-top: -100px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  浏览器兼容性：All</p>
+</li>
+<li><p>绝对定位方法   </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    position: absolute;</div><div class="line">    height: 200px;</div><div class="line">    top: 0;</div><div class="line">    bottom: 0;</div><div class="line">    left: 0;</div><div class="line">    margin: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  此方法需要设定<code>height</code>属性。浏览器兼容性：All。</p>
+</li>
+</ul>
+</li>
+<li><p>未知高度<br> 利用<code>transform</code>属性</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 50%;</div><div class="line">    left: 0;</div><div class="line">    transform: translateY(-50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 浏览器兼容性：IE9+<br> (希望兼容IE8？可以考虑使用设置元素为<code>inline-block</code>,使用伪元素居中方法。)</p>
+</li>
+</ol>
+<h2 id="垂直水平居中"><a href="#垂直水平居中" class="headerlink" title="垂直水平居中"></a>垂直水平居中</h2><p>对于这个问题，可以综合上述1、2点进行实现。</p>
+<h3 id="行内元素-2"><a href="#行内元素-2" class="headerlink" title="行内元素"></a>行内元素</h3><p>使用<code>text-align</code>与<code>line-height</code>属性即可。</p>
+<h3 id="块级元素-2"><a href="#块级元素-2" class="headerlink" title="块级元素"></a>块级元素</h3><ol>
+<li><p>已知高度与宽度  </p>
+<ul>
+<li><p>使用absolute+margin方法。 </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 50%;</div><div class="line">    left: 50%;</div><div class="line">    height: 200px;</div><div class="line">    width: 200px;</div><div class="line">    margin-top: -100px;</div><div class="line">    margin-left: -100px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>绝对定位居中方法:  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    position: absolute;</div><div class="line">    height: 200px;</div><div class="line">    top: 0;</div><div class="line">    bottom: 0;</div><div class="line">    left: 0;</div><div class="line">    right: 0;</div><div class="line">    margin: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>未知高度与宽度<br> 使用transform方法：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 50%;</div><div class="line">    left: 50%;</div><div class="line">    transform: translate(-50%, -50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="其他居中方法"><a href="#其他居中方法" class="headerlink" title="其他居中方法"></a>其他居中方法</h2><p>前三节中的方法是相对来说使用率较高的方法，并且有较好的兼容性。除此之外，还有一些方法也可以实现居中。</p>
+<h3 id="使用float实现水平居中"><a href="#使用float实现水平居中" class="headerlink" title="使用float实现水平居中"></a>使用float实现水平居中</h3><p>Html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;container&quot;&gt;</div><div class="line">    &lt;div class=&quot;parent&quot;&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;1&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;2&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">.container &#123;</div><div class="line">    background-color: #aaa;</div><div class="line">    width: 600px;</div><div class="line">    height: 200px;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.parent &#123;</div><div class="line">    display: inline-block;</div><div class="line">    position: relative;</div><div class="line">    left: 50%;</div><div class="line">    float: left;</div><div class="line">    clear: left;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    background-color: #6aa;</div><div class="line">    width: 100px;</div><div class="line">    height: 100px;</div><div class="line">    position: relative;</div><div class="line">    right: 50%;</div><div class="line">    float: left;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="/images/css-align-2.png" alt="使用float水平居中"></p>
+<h3 id="使用flex"><a href="#使用flex" class="headerlink" title="使用flex"></a>使用flex</h3><p>不考虑兼容性的情况下，flex可以轻松实现水平与垂直居中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    display: flex;</div><div class="line">    justify-content: center;</div><div class="line">    align-items: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用table"><a href="#使用table" class="headerlink" title="使用table"></a>使用table</h3><p>使用table也具有良好的兼容性，但是table布局会带来页面重排性能的问题，所以一般都不采用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.child &#123;</div><div class="line">    width: 100px;</div><div class="line">    height: 100px;</div><div class="line">    display: table-cell;</div><div class="line">    text-align: center;</div><div class="line">    vertical-align: middle;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用calc计算属性"><a href="#使用calc计算属性" class="headerlink" title="使用calc计算属性"></a>使用calc计算属性</h3><p>使用CSS3的<code>calc</code>属性，基于当前的页面的布局计算尺寸。<br>兼容性：IE9+<br>Html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;parent&quot;&gt;</div><div class="line">    &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">.parent &#123;</div><div class="line">    background-color: #aaa;</div><div class="line">    width: 600px;</div><div class="line">    min-height: 400px;</div><div class="line">    position: relative;</div><div class="line">&#125;</div><div class="line">.child &#123;</div><div class="line">    background-color: #ff2;</div><div class="line">    width: 200px;</div><div class="line">    height: 200px;</div><div class="line">    position: absolute;</div><div class="line">    top: calc(50% - 100px);</div><div class="line">    left: calc(50% - 100px);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="/images/css-align-3.png" alt="使用calc属性居中"></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="external">Centering in CSS: A Complete Guide</a></li>
+<li><a href="http://blog.csdn.net/freshlover/article/details/11579669" target="_blank" rel="external">盘点8种CSS实现垂直居中水平居中的绝对定位居中技术</a></li>
+<li><a href="https://www.smashingmagazine.com/2013/08/absolute-horizontal-vertical-centering-css/" target="_blank" rel="external">Absolute Horizontal And Vertical Centering In CSS</a></li>
+<li><a href="https://www.w3cplus.com/css/elements-horizontally-center-with-css.html" target="_blank" rel="external">六种实现元素水平居中</a></li>
+</ul>
+<p>第一篇技术文章，就写到这里啦^_^。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/14/JavaScript小结——DOM操作/" rel="prev" title="JavaScript笔记——DOM操作">
+                JavaScript笔记——DOM操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4"
+                alt="Zero Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Zero Zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/southbeanZ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://segmentfault.com/u/southbean" target="_blank" title="Segmentfault">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Segmentfault</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平居中"><span class="nav-number">3.</span> <span class="nav-text">水平居中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行内元素"><span class="nav-number">3.1.</span> <span class="nav-text">行内元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块级元素"><span class="nav-number">3.2.</span> <span class="nav-text">块级元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直居中"><span class="nav-number">4.</span> <span class="nav-text">垂直居中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行内元素-1"><span class="nav-number">4.1.</span> <span class="nav-text">行内元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块级元素-1"><span class="nav-number">4.2.</span> <span class="nav-text">块级元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直水平居中"><span class="nav-number">5.</span> <span class="nav-text">垂直水平居中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行内元素-2"><span class="nav-number">5.1.</span> <span class="nav-text">行内元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块级元素-2"><span class="nav-number">5.2.</span> <span class="nav-text">块级元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他居中方法"><span class="nav-number">6.</span> <span class="nav-text">其他居中方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用float实现水平居中"><span class="nav-number">6.1.</span> <span class="nav-text">使用float实现水平居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用flex"><span class="nav-number">6.2.</span> <span class="nav-text">使用flex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用table"><span class="nav-number">6.3.</span> <span class="nav-text">使用table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用calc计算属性"><span class="nav-number">6.4.</span> <span class="nav-text">使用calc计算属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">7.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zero Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
