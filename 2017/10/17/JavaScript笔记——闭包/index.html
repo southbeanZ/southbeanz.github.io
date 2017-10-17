@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Zero&#39;s blog">
 <meta property="og:description" content="前言秋招大大小小若干场面试，几乎都问了这个问题，当然不知道闭包也不能说会js。所以，不要逃避，好好地来梳理一下。 闭包是什么？来看看MDN官网上关于闭包的定义：  A closure is the combination of a function and the lexical environment within which that function was declared.  闭包是函数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-17T13:04:20.648Z">
+<meta property="og:updated_time" content="2017-10-17T13:22:55.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript笔记——闭包">
 <meta name="twitter:description" content="前言秋招大大小小若干场面试，几乎都问了这个问题，当然不知道闭包也不能说会js。所以，不要逃避，好好地来梳理一下。 闭包是什么？来看看MDN官网上关于闭包的定义：  A closure is the combination of a function and the lexical environment within which that function was declared.  闭包是函数">
@@ -365,7 +365,7 @@
 <h2 id="闭包的作用？"><a href="#闭包的作用？" class="headerlink" title="闭包的作用？"></a>闭包的作用？</h2><p>从上一个例子，可以看到闭包的特点是读取函数内部局部变量，并将局部变量保存在内存，延长其生命周期。利用这个特点可以使用闭包实现以下功能：</p>
 <ol>
 <li><p>解决类似循环绑定事件的问题</p>
-<p>在实际开发中，经常会遇到需要循环绑定事件的需求，比如上一篇<a href="link">博客的例子</a>，在id为container的元素中添加5个按钮，每个按钮的文案是相应序号，点击打印输出对应序号。</p>
+<p>在实际开发中，经常会遇到需要循环绑定事件的需求，比如上一篇<a href="https://segmentfault.com/a/1190000010877268" target="_blank" rel="external">博客的例子</a>，在id为container的元素中添加5个按钮，每个按钮的文案是相应序号，点击打印输出对应序号。</p>
 <p>其中第一个方法很容易错误写成：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> container = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">  <span class="keyword">var</span> btn = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>),</div><div class="line">      text = <span class="built_in">document</span>.createTextNode(i);</div><div class="line">  btn.appendChild(text);</div><div class="line">  btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;)</div><div class="line">  container.appendChild(btn);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>虽然给不同的按钮分别绑定了事件函数，但是5个函数其实共享了一个变量 i。由于点击事件在 js 代码执行完成之后发生，此时的变量 i 值为6，所以每个按钮点击打印输出都是6。</p>
