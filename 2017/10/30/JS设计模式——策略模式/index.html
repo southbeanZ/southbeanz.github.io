@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js,读书笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言本系列为阅读曾探的《JavaScript设计模式与开发实践》一书所做的读书笔记，大部分内容摘自原书，加入了部分个人理解。本篇内容为书中第5章策略模式。 策略模式 策略模式：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。  可用于解决一些包含多种条件语句 if-else 的问题，同时提高代码的复用性。 策略模式的目的就是将算法的使用与算法的实现分离开来。一个基于策略模式的程序至">
+<meta name="keywords" content="js,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS设计模式——策略模式">
+<meta property="og:url" content="https://southbeanz.github.io/2017/10/30/JS设计模式——策略模式/index.html">
+<meta property="og:site_name" content="Zero&#39;s blog">
+<meta property="og:description" content="前言本系列为阅读曾探的《JavaScript设计模式与开发实践》一书所做的读书笔记，大部分内容摘自原书，加入了部分个人理解。本篇内容为书中第5章策略模式。 策略模式 策略模式：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。  可用于解决一些包含多种条件语句 if-else 的问题，同时提高代码的复用性。 策略模式的目的就是将算法的使用与算法的实现分离开来。一个基于策略模式的程序至">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-30T12:37:37.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS设计模式——策略模式">
+<meta name="twitter:description" content="前言本系列为阅读曾探的《JavaScript设计模式与开发实践》一书所做的读书笔记，大部分内容摘自原书，加入了部分个人理解。本篇内容为书中第5章策略模式。 策略模式 策略模式：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。  可用于解决一些包含多种条件语句 if-else 的问题，同时提高代码的复用性。 策略模式的目的就是将算法的使用与算法的实现分离开来。一个基于策略模式的程序至">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://southbeanz.github.io/2017/10/30/JS设计模式——策略模式/"/>
+
+
+
+
+
+  <title>JS设计模式——策略模式 | Zero's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zero's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://southbeanz.github.io/2017/10/30/JS设计模式——策略模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zero Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zero's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS设计模式——策略模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T19:50:18+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列为阅读曾探的<a href="https://book.douban.com/subject/26382780/" target="_blank" rel="external">《JavaScript设计模式与开发实践》</a>一书所做的读书笔记，大部分内容摘自原书，加入了部分个人理解。本篇内容为书中第5章策略模式。</p>
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><blockquote>
+<p>策略模式：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。</p>
+</blockquote>
+<p>可用于解决一些包含多种条件语句 if-else 的问题，同时提高代码的复用性。</p>
+<p>策略模式的目的就是将算法的使用与算法的实现分离开来。一个基于策略模式的程序至少由两部分组成。第一个部分是一组策略类，策略类封装了具体的算法，并负责具体的计算过程。 第二个部分是环境类Context，Context 接受客户的请求，随后把请求委托给某一个策略类。要做到这点，说明Context 中要维持对某个策略对象的引用。</p>
+<p>举例，年终奖金计算。<br><a id="more"></a></p>
+<h3 id="直观简单的实现"><a href="#直观简单的实现" class="headerlink" title="直观简单的实现"></a>直观简单的实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> calculateBonus = <span class="function"><span class="keyword">function</span>(<span class="params"> performanceLevel, salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'S'</span> )&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">4</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'A'</span> )&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'B'</span> )&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">2</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">calculateBonus( <span class="string">'B'</span>, <span class="number">20000</span> ); <span class="comment">// 输出：40000</span></div><div class="line">calculateBonus( <span class="string">'S'</span>, <span class="number">6000</span> ); <span class="comment">// 输出：24000</span></div></pre></td></tr></table></figure>
+<p>缺点：</p>
+<ol>
+<li>大量if-else判断语句</li>
+<li>函数缺乏弹性、扩展性</li>
+<li>代码复用性差</li>
+</ol>
+<h3 id="使用组合函数"><a href="#使用组合函数" class="headerlink" title="使用组合函数"></a>使用组合函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> performanceS = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">4</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> performanceA = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">3</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> performanceB = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">2</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> calculateBonus = <span class="function"><span class="keyword">function</span>(<span class="params"> performanceLevel, salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'S'</span> )&#123;</div><div class="line">    <span class="keyword">return</span> performanceS( salary );</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'A'</span> )&#123;</div><div class="line">    <span class="keyword">return</span> performanceA( salary );</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> ( performanceLevel === <span class="string">'B'</span> )&#123;</div><div class="line">    <span class="keyword">return</span> performanceB( salary );</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">calculateBonus( <span class="string">'A'</span> , <span class="number">10000</span> ); <span class="comment">// 输出：30000</span></div></pre></td></tr></table></figure>
+<p>增强了代码复用性，但仍具有上述问题。</p>
+<h3 id="仿面向对象语言的策略模式实现"><a href="#仿面向对象语言的策略模式实现" class="headerlink" title="仿面向对象语言的策略模式实现"></a>仿面向对象语言的策略模式实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 封装了奖金计算规则的三个策略类</span></div><div class="line"><span class="keyword">var</span> performanceS = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">performanceS.prototype.calculate = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">4</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> performanceA = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">performanceA.prototype.calculate = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">3</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> performanceB = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">performanceB.prototype.calculate = <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">2</span>;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 奖金类</span></div><div class="line"><span class="keyword">var</span> Bouns = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.salary = <span class="literal">null</span>;</div><div class="line">  <span class="keyword">this</span>.strategy = <span class="literal">null</span>;</div><div class="line">&#125;</div><div class="line">Bouns.prototype.setSalary = <span class="function"><span class="keyword">function</span>(<span class="params">salary</span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.salary = salary;</div><div class="line">&#125;</div><div class="line">Bouns.prototype.setStrategy = <span class="function"><span class="keyword">function</span>(<span class="params">strategy</span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.strategy = strategy;</div><div class="line">&#125;</div><div class="line">Bouns.prototype.getBouns = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.strategy.calculate(<span class="keyword">this</span>.salary); <span class="comment">//将计算奖金的操作委托给对应的策略对象</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// Context对象bouns</span></div><div class="line"><span class="keyword">var</span> bouns = <span class="keyword">new</span> Bouns();</div><div class="line">bonus.setSalary( <span class="number">10000</span> );</div><div class="line">bonus.setStrategy( <span class="keyword">new</span> performanceS() ); <span class="comment">// 设置策略对象</span></div><div class="line"><span class="built_in">console</span>.log( bonus.getBonus() ); <span class="comment">// 输出：40000</span></div><div class="line">bonus.setStrategy( <span class="keyword">new</span> performanceA() ); <span class="comment">// 设置策略对象</span></div><div class="line"><span class="built_in">console</span>.log( bonus.getBonus() ); <span class="comment">// 输出：30000</span></div></pre></td></tr></table></figure>
+<p>清楚地将之前的代码根据不同的作用进行了重构，分割成多个类。</p>
+<h3 id="Js-语言下的策略模式实现"><a href="#Js-语言下的策略模式实现" class="headerlink" title="Js 语言下的策略模式实现"></a>Js 语言下的策略模式实现</h3><p>在 Js 语言中，函数也是对象。上一节代码实现了3个策略类，可以用函数代替。Context 类也不需要使用 Bouns 类实现，使用calculateBonus函数即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> strategies = &#123;</div><div class="line">  <span class="string">"S"</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">4</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"A"</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">3</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="string">"B"</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> salary </span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> salary * <span class="number">2</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> calculateBonus = <span class="function"><span class="keyword">function</span>(<span class="params">level, salary</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> strategies[level](salary);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log( calculateBonus( <span class="string">'S'</span>, <span class="number">20000</span> ) ); <span class="comment">// 输出：80000</span></div><div class="line"><span class="built_in">console</span>.log( calculateBonus( <span class="string">'A'</span>, <span class="number">10000</span> ) ); <span class="comment">// 输出：30000</span></div></pre></td></tr></table></figure>
+<p>这样一来，代码更加简介。对于不同的需求，只需要修改 strategies 对象即可。对于缓动动画和表单验证等问题，我们也可以采用类型的方式实现。</p>
+<p>从定义上看，策略模式就是用来封装算法的。在实际开发中，我们通常会把算法的含义扩散开来，使策略模式也可以用来封装一系列的“业务规则”。只要这些业务规则指向的目标一致，并且可以被替换使用，我们就可以用策略模式来封装它们。</p>
+<h2 id="策略模式的优缺点"><a href="#策略模式的优缺点" class="headerlink" title="策略模式的优缺点"></a>策略模式的优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>策略模式利用组合、委托和多态等技术和思想，可以有效地<strong>避免多重条件选择语句</strong>。</li>
+<li>策略模式提供了对<strong>开放——封闭原则</strong>的完美支持，将算法封装在独立的strategy 中，使得它们易于切换，易于理解，易于扩展。</li>
+<li>策略模式中的算法也可以复用在系统的其他地方，从而避免许多重复的复制粘贴工作。</li>
+<li>在策略模式中利用组合和委托来让Context 拥有执行算法的能力，这也是继承的一种更轻便的替代方案。</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>使用策略模式会在程序中增加许多策略类或者策略对象，但实际上这比把它们负责的逻辑堆砌在Context 中要好。</li>
+<li>要使用策略模式，必须了解所有的strategy，必须了解各个strategy 之间的不同点，这样才能选择一个合适的strategy。此时strategy 要向客户暴露它的所有实现，这是违反最少知识原则的。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/24/JS设计模式——单例模式/" rel="next" title="JS设计模式——单例模式">
+                <i class="fa fa-chevron-left"></i> JS设计模式——单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4"
+                alt="Zero Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Zero Zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/southbeanZ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://segmentfault.com/u/southbean" target="_blank" title="Segmentfault">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Segmentfault</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式"><span class="nav-number">2.</span> <span class="nav-text">策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直观简单的实现"><span class="nav-number">2.1.</span> <span class="nav-text">直观简单的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用组合函数"><span class="nav-number">2.2.</span> <span class="nav-text">使用组合函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿面向对象语言的策略模式实现"><span class="nav-number">2.3.</span> <span class="nav-text">仿面向对象语言的策略模式实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Js-语言下的策略模式实现"><span class="nav-number">2.4.</span> <span class="nav-text">Js 语言下的策略模式实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式的优缺点"><span class="nav-number">3.</span> <span class="nav-text">策略模式的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zero Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
