@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言好久没写博客啦~这次写一篇轻松的内容，JS里的16个有趣的技巧，简单总结自Tal Bereznitskey 的两篇博客，代码摘自原文。  Javascript Hacks for Hipsters (2013) 7 Hacks for ES6 Developers (2017)  Hacks!前9个来源于2013年的博客，后7个来源于2017年底的博客。 条件运算符实现方法调用12345678">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS奇谋诡计——16 Hacks">
+<meta property="og:url" content="https://southbeanz.github.io/2018/05/17/JS奇谋诡计——15-Hacks/index.html">
+<meta property="og:site_name" content="Zero&#39;s blog">
+<meta property="og:description" content="前言好久没写博客啦~这次写一篇轻松的内容，JS里的16个有趣的技巧，简单总结自Tal Bereznitskey 的两篇博客，代码摘自原文。  Javascript Hacks for Hipsters (2013) 7 Hacks for ES6 Developers (2017)  Hacks!前9个来源于2013年的博客，后7个来源于2017年底的博客。 条件运算符实现方法调用12345678">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-17T09:01:03.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS奇谋诡计——16 Hacks">
+<meta name="twitter:description" content="前言好久没写博客啦~这次写一篇轻松的内容，JS里的16个有趣的技巧，简单总结自Tal Bereznitskey 的两篇博客，代码摘自原文。  Javascript Hacks for Hipsters (2013) 7 Hacks for ES6 Developers (2017)  Hacks!前9个来源于2013年的博客，后7个来源于2017年底的博客。 条件运算符实现方法调用12345678">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://southbeanz.github.io/2018/05/17/JS奇谋诡计——15-Hacks/"/>
+
+
+
+
+
+  <title>JS奇谋诡计——16 Hacks | Zero's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zero's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://southbeanz.github.io/2018/05/17/JS奇谋诡计——15-Hacks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zero Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zero's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS奇谋诡计——16 Hacks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T15:45:58+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好久没写博客啦~这次写一篇轻松的内容，JS里的16个有趣的技巧，简单总结自<a href="https://medium.com/@ketacode" target="_blank" rel="external">Tal Bereznitskey</a> 的两篇博客，代码摘自原文。</p>
+<ul>
+<li><a href="https://hackernoon.com/javascript-hacks-for-hipsters-624d50c76e8e" target="_blank" rel="external">Javascript Hacks for Hipsters (2013)</a></li>
+<li><a href="https://medium.com/dailyjs/7-hacks-for-es6-developers-4e24ff425d0b" target="_blank" rel="external">7 Hacks for ES6 Developers (2017)</a></li>
+</ul>
+<h2 id="Hacks"><a href="#Hacks" class="headerlink" title="Hacks!"></a>Hacks!</h2><p>前9个来源于2013年的博客，后7个来源于2017年底的博客。</p>
+<h3 id="条件运算符实现方法调用"><a href="#条件运算符实现方法调用" class="headerlink" title="条件运算符实现方法调用"></a>条件运算符实现方法调用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Boring</span></div><div class="line"><span class="keyword">if</span> (success) &#123;</div><div class="line">    obj.start();</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    obj.stop();</div><div class="line">&#125;</div><div class="line"><span class="comment">// Hipster-fun</span></div><div class="line"><span class="keyword">var</span> method = (success ? ‘start’ : ‘stop’);</div><div class="line">obj[method]();</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="join方法实现字符串拼接"><a href="#join方法实现字符串拼接" class="headerlink" title="join方法实现字符串拼接"></a>join方法实现字符串拼接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">'milk'</span>, <span class="string">'coffee'</span>, <span class="string">'suger'</span>].join(<span class="string">', '</span>); <span class="comment">// = ‘milk, coffee, suger’</span></div></pre></td></tr></table></figure>
+<h3 id="或运算符-设置默认值"><a href="#或运算符-设置默认值" class="headerlink" title="或运算符 || 设置默认值"></a>或运算符 || 设置默认值</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = myName || ‘No name’;</div></pre></td></tr></table></figure>
+<h3 id="与运算符-amp-amp-代替-if-判断"><a href="#与运算符-amp-amp-代替-if-判断" class="headerlink" title="与运算符 &amp;&amp; 代替 if 判断"></a>与运算符 &amp;&amp; 代替 if 判断</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Boring</span></div><div class="line"><span class="keyword">if</span> (isThisAwesome) &#123;</div><div class="line"> alert(‘yes’); <span class="comment">// it’s not</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// Awesome</span></div><div class="line">isThisAwesome &amp;&amp; alert(‘yes’);</div><div class="line"><span class="comment">// Also cool for guarding your code</span></div><div class="line"><span class="keyword">var</span> aCoolFunction = <span class="literal">undefined</span>;</div><div class="line">aCoolFunction &amp;&amp; aCoolFunction(); <span class="comment">// won’t run nor crash</span></div></pre></td></tr></table></figure>
+<h3 id="xxx标记代替TODO标记"><a href="#xxx标记代替TODO标记" class="headerlink" title="xxx标记代替TODO标记"></a>xxx标记代替TODO标记</h3><p>快速定位未完成的内容，因为正常情况下代码不会出现xxx。</p>
+<h3 id="Console的-Timing-计时"><a href="#Console的-Timing-计时" class="headerlink" title="Console的 Timing 计时"></a>Console的 Timing 计时</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>];</div><div class="line"><span class="built_in">console</span>.time(‘testing_forward’);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; a.length; i++);</div><div class="line"><span class="built_in">console</span>.timeEnd(‘testing_forward’);</div></pre></td></tr></table></figure>
+<h3 id="Debugger-设置断点"><a href="#Debugger-设置断点" class="headerlink" title="Debugger 设置断点"></a>Debugger 设置断点</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</div><div class="line"><span class="keyword">debugger</span>; <span class="comment">// Code execution stops here, happy debugging</span></div><div class="line">x++;</div></pre></td></tr></table></figure>
+<h3 id="老式Debug手段——全局变量"><a href="#老式Debug手段——全局变量" class="headerlink" title="老式Debug手段——全局变量"></a>老式Debug手段——全局变量</h3><p>利用全局变量可以在控制台中查询变量信息，但要记得在正式上线发布时删除这些全局变量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> deeplyNestedFunction = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"> <span class="keyword">var</span> private_object = &#123;</div><div class="line"> year: ‘<span class="number">2013</span><span class="string">'</span></div><div class="line"><span class="string"> &#125;;</span></div><div class="line"><span class="string"> // Globalize it for debugging:</span></div><div class="line"><span class="string"> pub = private_object;</span></div><div class="line"><span class="string">&#125;;</span></div><div class="line"><span class="string">// Now from the console (Chrome dev tools, firefox tools, etc)</span></div><div class="line"><span class="string">pub.year;</span></div></pre></td></tr></table></figure>
+<h3 id="老式字符串模板"><a href="#老式字符串模板" class="headerlink" title="老式字符串模板"></a>老式字符串模板</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> firstName = <span class="string">`Tal`</span>;</div><div class="line"><span class="keyword">var</span> screenName = <span class="string">`ketacode`</span></div><div class="line"><span class="comment">// Super</span></div><div class="line"><span class="keyword">var</span> template = <span class="string">`Hi, my name is &#123;first-name&#125; and my twitter screen name is @&#123;screen-name&#125;`</span>;</div><div class="line"><span class="keyword">var</span> txt = template.replace(<span class="string">`&#123;first-name&#125;`</span>, firstName)</div><div class="line"> .replace(<span class="string">`&#123;screen-name&#125;`</span>, screenName);</div></pre></td></tr></table></figure>
+<p>个人建议在ES6的时代还是优雅地用``、${}模板字符串吧。</p>
+<h3 id="解构实现变量互换"><a href="#解构实现变量互换" class="headerlink" title="解构实现变量互换"></a>解构实现变量互换</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="string">'world'</span>, b = <span class="string">'hello'</span></div><div class="line">[a, b] = [b, a]</div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// -&gt; hello</span></div><div class="line"><span class="built_in">console</span>.log(b) <span class="comment">// -&gt; world</span></div></pre></td></tr></table></figure>
+<h3 id="解构简化Async-Await语句"><a href="#解构简化Async-Await语句" class="headerlink" title="解构简化Async/Await语句"></a>解构简化Async/Await语句</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> [user, account] = <span class="keyword">await</span> <span class="built_in">Promise</span>.all([</div><div class="line">  fetch(<span class="string">'/user'</span>),</div><div class="line">  fetch(<span class="string">'/account'</span>)</div><div class="line">])</div></pre></td></tr></table></figure>
+<h3 id="Console妙用"><a href="#Console妙用" class="headerlink" title="Console妙用"></a>Console妙用</h3><ol>
+<li><p>打印对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">5</span>, b = <span class="number">6</span>, c = <span class="number">7</span></div><div class="line"><span class="built_in">console</span>.log(&#123; a, b, c &#125;)</div><div class="line"><span class="comment">// outputs this nice object:</span></div><div class="line"><span class="comment">// &#123;</span></div><div class="line"><span class="comment">//    a: 5,</span></div><div class="line"><span class="comment">//    b: 6,</span></div><div class="line"><span class="comment">//    c: 7</span></div><div class="line"><span class="comment">// &#125;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>打印表格</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.table(data [, columns]);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="单行语句计算数组最大值、和"><a href="#单行语句计算数组最大值、和" class="headerlink" title="单行语句计算数组最大值、和"></a>单行语句计算数组最大值、和</h3>   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Find max value</span></div><div class="line"><span class="keyword">const</span> max = <span class="function">(<span class="params">arr</span>) =&gt;</span> <span class="built_in">Math</span>.max(...arr); <span class="comment">//也是利用了解构</span></div><div class="line">max([<span class="number">123</span>, <span class="number">321</span>, <span class="number">32</span>]) <span class="comment">// outputs: 321</span></div><div class="line"><span class="comment">// Sum array</span></div><div class="line"><span class="keyword">const</span> sum = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> (a + b), <span class="number">0</span>)</div><div class="line">sum([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]) <span class="comment">// output: 10</span></div></pre></td></tr></table></figure>
+<h3 id="解构实现数组拼接"><a href="#解构实现数组拼接" class="headerlink" title="解构实现数组拼接"></a>解构实现数组拼接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> one = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</div><div class="line"><span class="keyword">const</span> two = [<span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>]</div><div class="line"><span class="keyword">const</span> three = [<span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>]</div><div class="line"><span class="comment">// Old way #1</span></div><div class="line"><span class="keyword">const</span> result = one.concat(two, three)</div><div class="line"><span class="comment">// Old way #2</span></div><div class="line"><span class="keyword">const</span> result = [].concat(one, two, three)</div><div class="line"><span class="comment">// New</span></div><div class="line"><span class="keyword">const</span> result = [...one, ...two, ...three] <span class="comment">//没错，又是解构！</span></div></pre></td></tr></table></figure>
+<h3 id="解构实现浅拷贝"><a href="#解构实现浅拷贝" class="headerlink" title="解构实现浅拷贝"></a>解构实现浅拷贝</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> obj = &#123; ...oldObj &#125;</div><div class="line"><span class="keyword">const</span> arr = [ ...oldArr ]</div><div class="line"><span class="comment">// 强大的解构</span></div></pre></td></tr></table></figure>
+<h3 id="使用命名变量提高解构的可读性"><a href="#使用命名变量提高解构的可读性" class="headerlink" title="使用命名变量提高解构的可读性"></a>使用命名变量提高解构的可读性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> getStuffNotBad = <span class="function">(<span class="params">id, force, verbose</span>) =&gt;</span> &#123;</div><div class="line">  ...do stuff</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getStuffAwesome = <span class="function">(<span class="params">&#123; id, name, force, verbose &#125;</span>) =&gt;</span> &#123;</div><div class="line">  ...do stuff</div><div class="line">&#125;</div><div class="line"><span class="comment">// Somewhere else in the codebase... WTF is true, true?</span></div><div class="line">getStuffNotBad(<span class="number">150</span>, <span class="literal">true</span>, <span class="literal">true</span>)</div><div class="line"><span class="comment">// Somewhere else in the codebase... I ❤ JS!!!</span></div><div class="line">getStuffAwesome(&#123; <span class="attr">id</span>: <span class="number">150</span>, <span class="attr">force</span>: <span class="literal">true</span>, <span class="attr">verbose</span>: <span class="literal">true</span> &#125;)</div></pre></td></tr></table></figure>
+<h2 id="The-last"><a href="#The-last" class="headerlink" title="The last"></a>The last</h2><p>到此为止!<br>感悟：解构（Destructuring）真的很强大~~~(ง •_•)ง</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/NodeJS——CommonJS模块规范/" rel="next" title="NodeJS——CommonJS模块规范">
+                <i class="fa fa-chevron-left"></i> NodeJS——CommonJS模块规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars1.githubusercontent.com/u/24385536?s=400&u=666c773bd888078cc6a977d427f99fb246e5ccf2&v=4"
+                alt="Zero Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Zero Zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/southbeanZ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://segmentfault.com/u/southbean" target="_blank" title="Segmentfault">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Segmentfault</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hacks"><span class="nav-number">2.</span> <span class="nav-text">Hacks!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件运算符实现方法调用"><span class="nav-number">2.1.</span> <span class="nav-text">条件运算符实现方法调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#join方法实现字符串拼接"><span class="nav-number">2.2.</span> <span class="nav-text">join方法实现字符串拼接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#或运算符-设置默认值"><span class="nav-number">2.3.</span> <span class="nav-text">或运算符 || 设置默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与运算符-amp-amp-代替-if-判断"><span class="nav-number">2.4.</span> <span class="nav-text">与运算符 && 代替 if 判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxx标记代替TODO标记"><span class="nav-number">2.5.</span> <span class="nav-text">xxx标记代替TODO标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Console的-Timing-计时"><span class="nav-number">2.6.</span> <span class="nav-text">Console的 Timing 计时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debugger-设置断点"><span class="nav-number">2.7.</span> <span class="nav-text">Debugger 设置断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老式Debug手段——全局变量"><span class="nav-number">2.8.</span> <span class="nav-text">老式Debug手段——全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老式字符串模板"><span class="nav-number">2.9.</span> <span class="nav-text">老式字符串模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构实现变量互换"><span class="nav-number">2.10.</span> <span class="nav-text">解构实现变量互换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构简化Async-Await语句"><span class="nav-number">2.11.</span> <span class="nav-text">解构简化Async/Await语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Console妙用"><span class="nav-number">2.12.</span> <span class="nav-text">Console妙用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单行语句计算数组最大值、和"><span class="nav-number">2.13.</span> <span class="nav-text">单行语句计算数组最大值、和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构实现数组拼接"><span class="nav-number">2.14.</span> <span class="nav-text">解构实现数组拼接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构实现浅拷贝"><span class="nav-number">2.15.</span> <span class="nav-text">解构实现浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用命名变量提高解构的可读性"><span class="nav-number">2.16.</span> <span class="nav-text">使用命名变量提高解构的可读性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-last"><span class="nav-number">3.</span> <span class="nav-text">The last</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zero Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
